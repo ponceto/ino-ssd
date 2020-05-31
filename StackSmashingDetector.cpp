@@ -35,7 +35,7 @@ void StackSmashingDetectorTraits::enter(const void* ssd, const uint32_t canary, 
     if(canary != CANARY) {
         panic();
     }
-    STACK_SMASHING_DETECTOR_SERIAL.println(' ');
+    STACK_SMASHING_DETECTOR_SERIAL.println();
 }
 
 void StackSmashingDetectorTraits::leave(const void* ssd, const uint32_t canary, const __FlashStringHelper* string)
@@ -50,7 +50,7 @@ void StackSmashingDetectorTraits::leave(const void* ssd, const uint32_t canary, 
     if(canary != CANARY) {
         panic();
     }
-    STACK_SMASHING_DETECTOR_SERIAL.println(' ');
+    STACK_SMASHING_DETECTOR_SERIAL.println();
 }
 
 void StackSmashingDetectorTraits::check(const void* ssd, const uint32_t canary, const __FlashStringHelper* string)
@@ -65,7 +65,7 @@ void StackSmashingDetectorTraits::check(const void* ssd, const uint32_t canary, 
     if(canary != CANARY) {
         panic();
     }
-    STACK_SMASHING_DETECTOR_SERIAL.println(' ');
+    STACK_SMASHING_DETECTOR_SERIAL.println();
 }
 
 void StackSmashingDetectorTraits::panic()

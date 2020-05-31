@@ -27,8 +27,20 @@
 #define STACK_SMASHING_DETECTOR_SERIAL Serial
 #endif
 
-#ifndef STACK_SMASHING_DETECTOR_ACTIVE
-#define STACK_SMASHING_DETECTOR_ACTIVE 1
+#ifndef STACK_SMASHING_DETECTOR_ENABLED
+#define STACK_SMASHING_DETECTOR_ENABLED 0
+#endif
+
+// ---------------------------------------------------------------------------
+// some useful macros
+// ---------------------------------------------------------------------------
+
+#ifndef ALWAYS_INLINE
+#define ALWAYS_INLINE __attribute__((always_inline))
+#endif
+
+#ifndef IGNORE_UNUSED_PARAMETER
+#define IGNORE_UNUSED_PARAMETER(parameter) ((void)(parameter))
 #endif
 
 // ---------------------------------------------------------------------------
@@ -38,10 +50,10 @@
 class StackSmashingDetector
 {
 public: // public interface
-    StackSmashingDetector(const __FlashStringHelper* string = nullptr) __attribute__((always_inline));
-   ~StackSmashingDetector() __attribute__((always_inline));
+    StackSmashingDetector(const __FlashStringHelper* string = nullptr) ALWAYS_INLINE;
+   ~StackSmashingDetector() ALWAYS_INLINE;
 
-    void check(const __FlashStringHelper* string = nullptr);
+    void check(const __FlashStringHelper* string = nullptr) ALWAYS_INLINE;
 
 private: // private interface
    const uint32_t _canary;
@@ -69,17 +81,17 @@ inline
 StackSmashingDetector::StackSmashingDetector(const __FlashStringHelper* string)
     : _canary(StackSmashingDetectorTraits::CANARY)
 {
-#if defined(STACK_SMASHING_DETECTOR_ACTIVE) && (STACK_SMASHING_DETECTOR_ACTIVE > 0)
+#if defined(STACK_SMASHING_DETECTOR_ENABLED) && (STACK_SMASHING_DETECTOR_ENABLED > 0)
     StackSmashingDetectorTraits::enter(this, _canary, string);
 #else
-    (void)(string); /* ignore warning */
+    IGNORE_UNUSED_PARAMETER(string);
 #endif
 }
 
 inline
 StackSmashingDetector::~StackSmashingDetector()
 {
-#if defined(STACK_SMASHING_DETECTOR_ACTIVE) && (STACK_SMASHING_DETECTOR_ACTIVE > 0)
+#if defined(STACK_SMASHING_DETECTOR_ENABLED) && (STACK_SMASHING_DETECTOR_ENABLED > 0)
     StackSmashingDetectorTraits::leave(this, _canary, nullptr);
 #endif
 }
@@ -87,10 +99,10 @@ StackSmashingDetector::~StackSmashingDetector()
 inline
 void StackSmashingDetector::check(const __FlashStringHelper* string)
 {
-#if defined(STACK_SMASHING_DETECTOR_ACTIVE) && (STACK_SMASHING_DETECTOR_ACTIVE > 0)
+#if defined(STACK_SMASHING_DETECTOR_ENABLED) && (STACK_SMASHING_DETECTOR_ENABLED > 0)
     StackSmashingDetectorTraits::check(this, _canary, string);
 #else
-    (void)(string); /* ignore warning */
+    IGNORE_UNUSED_PARAMETER(string);
 #endif
 }
 
