@@ -1,5 +1,5 @@
 /*
- * RotaryTest.ino - Copyright (c) 2014-2020 - Olivier Poncet
+ * StackSmashingDetectorTest.ino - Copyright (c) 2014-2025 - Olivier Poncet
  *
  * This file is part of the StackSmashingDetector library
  *
